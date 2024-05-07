@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../') 
+
 import yaml
 import argparse
 import numpy as np
@@ -8,7 +11,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from models.ma2gcn import MA2GCN
 from trainer.trainer_ma2gcn import trainer
 from utils import ProcessData, TransAdj, StandardScalar
-
 
 def load_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
