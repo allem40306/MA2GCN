@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import torch
 from scipy.sparse.linalg import eigs
@@ -256,3 +257,9 @@ def masked_mse_np(preds, labels, null_val=np.nan):
 
 def masked_rmse_np(preds, labels, null_val=np.nan):
     return np.sqrt(masked_mse_np(preds=preds, labels=labels, null_val=null_val))
+
+def mkdir(folderName):
+    try:
+        os.makedirs(folderName)
+    except:
+        pass

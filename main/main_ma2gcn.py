@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from models.ma2gcn import MA2GCN
 from trainer.trainer_ma2gcn import trainer
 from utils import ProcessData, TransAdj, StandardScalar
+from utils import mkdir
 
 def load_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
@@ -18,7 +19,12 @@ def load_config(config_path):
     return config
 
 
-def main(config):
+def main(args):
+    # ------------------------ Args loading ------------------------
+    config = load_config(args.config_path)
+    output_path = args.output_path
+    mkdir(output_path)
+
     # ------------------------ Data loading ------------------------
     data_config = config['dataset']
     optim_config = config['optimize']
@@ -146,7 +152,7 @@ def main(config):
         print(f'val_loss(MAE):{val_loss_epochs[epoch]}, '
               f'val_MAPE:{val_mape_epochs[epoch]}, val_RMSE:{val_rmse_epochs[epoch]}')
 
-    torch.save(model.state_dict(), trainer_config['model_path'] + '/' + 'ma2gcn_pretrained' + '.pth')
+    torch.save(model.state_dict(), f"{output_path}/ma2gcn_pretrained.pth")
     print('Model saved!')
 
     # --------------------------- Test -------------------------
@@ -159,6 +165,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_path', type=str, default='../config/config_ma2gcn.yaml',
                         help='Config path')
+    parser.add_argument('--output_path', type=str, default='../result/',
+                        help='Output path')
     args = parser.parse_args()
-    configs = load_config(args.config_path)
-    main(configs)
+    main(args)
+
