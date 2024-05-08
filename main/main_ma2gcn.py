@@ -26,10 +26,7 @@ def main(config):
     feature_matrix = np.load(data_config['feature_matrix_data_path'])
     samples = feature_matrix.shape[0]
     # shape -> (number of samples, sequence length, number of vertexes, features)
-    train_data, train_labels, val_data, val_labels, test_data, test_labels = ProcessData(feature_matrix,
-                                                                                         data_config['input_seq'],
-                                                                                         data_config['output_seq'],
-                                                                                         data_config['split_rate'])
+    train_data, train_labels, val_data, val_labels, test_data, test_labels = ProcessData(feature_matrix, data_config['input_seq'], data_config['output_seq'], data_config['split_rate'])
     # data scalar
     device = data_config['device']
     scalar = StandardScalar(train_data, device, axis=(0, 1, 2))
