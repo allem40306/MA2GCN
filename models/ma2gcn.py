@@ -141,6 +141,7 @@ class DynamicAdjGen(nn.Module):
         cur_io_adj = F.softmax(cur_io_adj, dim=1)
 
         return [origin_adj, origin_adj_2, dynamic_adj, cur_io_adj]
+        # return [origin_adj, dynamic_adj, cur_io_adj] # without A^2
         # return [origin_adj, origin_adj_2, cur_io_adj] # without dynamic adjacency matrix
 
 
