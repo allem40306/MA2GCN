@@ -92,3 +92,17 @@ class trainer:
 
         return np.array(loss_inner_epoch).mean(), np.array(mape_inner_epoch).mean(), \
             np.array(rmse_inner_epoch).mean()
+
+    def save_test(self, test_loader, cur_io_adj, output_dir):
+        all_data = []
+        with torch.no_grad():
+            for batch_idx, (x, y_real) in enumerate(test_loader):
+                output, cur_io_adj = self.model((x, cur_io_adj))
+                y_pred = self.scaler.inverse_transform(output)
+
+                all_data.append([y_real, y_pred])
+            
+        target = torch.cat([data[0] for data in all_data], dim=0).cpu().numpy()
+        prediction = torch.cat([data[1] for data in all_data], dim=0).cpu().numpy()
+
+        np.savez_compressed(f"{output_dir}/result.npz", target=target, prediction=prediction)

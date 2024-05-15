@@ -159,6 +159,9 @@ def main(args):
     print('Testing...')
     test_loss, test_mape, test_rmse = engine.test(data_loaders[2], test_cur_io_adj)
     print(f'test_loss(MAE):{test_loss}, test_mape:{test_mape}, test_rmse:{test_rmse}')
+    
+    print('Save...')
+    engine.save_test(data_loaders[2], test_cur_io_adj, output_path)
 
 
 if __name__ == '__main__':
